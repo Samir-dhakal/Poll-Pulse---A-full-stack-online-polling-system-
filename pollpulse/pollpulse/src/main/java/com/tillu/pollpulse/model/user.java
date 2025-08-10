@@ -1,8 +1,7 @@
 package com.tillu.pollpulse.model;
 
 public class user {
-    long id;
-    String username;
-    String email;
-
+    private long id;
+    private String username;
+    private String email;
 }
