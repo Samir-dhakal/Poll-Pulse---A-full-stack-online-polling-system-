@@ -1,13 +1,20 @@
 package com.tillu.pollpulse.model;
 
-import jakarta.persistence.Entity;
-
 import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
-
 public class Poll {
+    @Id
     private long id;
+    private String tittile;
+    private String description;
+    private LocalDateTime endTime;
+
+    public enum status {
+        ACTIVE, CLOSED
+    }
 
     public long getId() {
         return id;
@@ -39,14 +46,6 @@ public class Poll {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
-    }
-
-    private String tittile;
-    private String description;
-    private LocalDateTime endTime;
-
-    public enum status {
-        ACTIVE, CLOSED
     }
 
 }
