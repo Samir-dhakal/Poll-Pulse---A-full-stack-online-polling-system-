@@ -14,6 +14,7 @@ import jakarta.persistence.CascadeType;
 public class user {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vote> votes = new ArrayList<>();
 
@@ -24,7 +25,6 @@ public class user {
         this.username = username;
     }
 
-    private long id;
     private String username;
     private String email;
 
