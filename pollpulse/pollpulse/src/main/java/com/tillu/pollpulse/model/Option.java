@@ -1,63 +1,67 @@
 package com.tillu.pollpulse.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.CascadeType;
-
 @Entity
+@Table(name = "options")
 public class Option {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @ManyToOne
+    private Long id;
+
+    private String text;
+    private Integer voteCount; // Changed name to match getters/setters
+
+    // An Option belongs to one Poll.
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "poll_id")
-
+    @JsonIgnoreProperties("options") // This breaks the circular reference
     private Poll poll;
-    // One Option → Many Votes
+
+    // One Option has many Votes.
     @OneToMany(mappedBy = "option", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Vote> votes = new ArrayList<>();
+    private List<Vote> votes;
 
-    public Option() {
-    }
-
-    public Option(String text) {
-        this.Text = text;
-    }
-
-    public long getId() {
+    // Getters and Setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     public String getText() {
-        return Text;
+        return text;
     }
 
     public void setText(String text) {
-        Text = text;
+        this.text = text;
     }
 
-    public int getVotecounter() {
-        return votecounter;
+    public Integer getVoteCount() {
+        return voteCount;
     }
 
-    public void setVotecounter(int votecounter) {
-        this.votecounter = votecounter;
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
     }
 
-    private String Text;
-    private int votecounter;
+    public Poll getPoll() {
+        return poll;
+    }
 
+    public void setPoll(Poll poll) {
+        this.poll = poll;
+    }
+    
+    public List<Vote> getVotes() {
+        return votes;
+    }
+    
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
 }

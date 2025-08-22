@@ -1,4 +1,4 @@
-package com.tillu.pollpulse.Repository;
+package com.tillu.pollpulse.repository;
 
 
 

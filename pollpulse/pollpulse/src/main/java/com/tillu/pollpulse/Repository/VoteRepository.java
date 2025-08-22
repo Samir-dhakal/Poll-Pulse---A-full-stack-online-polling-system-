@@ -1,4 +1,4 @@
-package com.tillu.pollpulse.Repository;
+package com.tillu.pollpulse.repository;
 
 import com.tillu.pollpulse.model.Vote;
 import org.springframework.data.jpa.repository.JpaRepository;
