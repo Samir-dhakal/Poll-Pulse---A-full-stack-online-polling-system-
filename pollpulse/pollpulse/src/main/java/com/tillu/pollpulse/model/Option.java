@@ -12,15 +12,15 @@ public class Option {
     private Long id;
 
     private String text;
-    private Integer voteCount; // Changed name to match getters/setters
+    private Integer voteCount = 0; // Initialized vote count to 0
 
     // An Option belongs to one Poll.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "poll_id")
-    @JsonIgnoreProperties("options") // This breaks the circular reference
+    @JsonIgnoreProperties("options")
     private Poll poll;
 
-    // One Option has many Votes.
+    // An Option can have many Votes.
     @OneToMany(mappedBy = "option", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vote> votes;
 
@@ -56,11 +56,11 @@ public class Option {
     public void setPoll(Poll poll) {
         this.poll = poll;
     }
-    
+
     public List<Vote> getVotes() {
         return votes;
     }
-    
+
     public void setVotes(List<Vote> votes) {
         this.votes = votes;
     }

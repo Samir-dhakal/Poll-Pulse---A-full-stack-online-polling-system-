@@ -1,7 +1,6 @@
-// src/main/java/com/tillu/pollpulse/model/Poll.java
-
 package com.tillu.pollpulse.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,14 +20,15 @@ public class Poll {
     // A Poll belongs to one User (the creator).
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
-    private user creator;
+    @JsonIgnoreProperties("pollsCreated")
+    private User creator;
 
     // A Poll has many Options.
     @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("poll") // This is the fix for the circular reference
     private List<Option> options;
 
     // A helper method to link the options to the poll.
-    // This is the missing piece that caused your error.
     @PrePersist
     @PreUpdate
     private void linkOptionsToPoll() {
@@ -78,11 +78,11 @@ public class Poll {
         this.status = status;
     }
 
-    public user getCreator() {
+    public User getCreator() {
         return creator;
     }
 
-    public void setCreator(user creator) {
+    public void setCreator(User creator) {
         this.creator = creator;
     }
 
